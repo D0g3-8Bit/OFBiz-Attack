@@ -3,7 +3,6 @@ package org.ofbiz.listener;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import static org.ofbiz.util.Check.*;
 
